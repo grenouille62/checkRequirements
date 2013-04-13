@@ -1,0 +1,446 @@
+<checkRequirements.ant.task.generators.Report>
+  <summary>
+    <nbRequirements>38</nbRequirements>
+    <nbImplemented>1</nbImplemented>
+    <nbNonImplemented>37</nbNonImplemented>
+  </summary>
+  <detailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_WSP_001</requirementName>
+      <requirementDescription>sites fournisseurs concernés par la validation CHORUS</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_WSP_002</requirementName>
+      <requirementDescription>site fournisseur en attente de validation CHORUS</requirementDescription>
+      <classes>
+        <checkRequirements.ant.task.ClassStructure>
+          <className>ogil.infos.generales
+
+import org.springframework.dao.DataIntegrityViolationException
+
+
+class EmployeController {
+
+    static allowedMethods = [save: &quot;POST&quot;, update: &quot;POST&quot;, delete: &quot;POST&quot;]
+
+    def index() {
+        redirect(action: &quot;list&quot;, params: params)
+    }
+		
+    def list() {
+    	        params.max = Math.min(params.max ? params.int(&apos;max&apos;) : 10, 100)
+        Etablissement etablissement = Etablissement.get(params.etablissement)
+        if (etablissement == null) {
+            redirect(controller: &quot;etablissement&quot;, action: &quot;create&quot;)
+            return
+        }
+        [employeInstanceList: etablissement.getEmployes(), employeInstanceTotal: Employe.count()]
+    }
+
+    def create() {
+        [employeInstance: new Employe(params)]
+    }
+
+    def save() {
+        def employeInstance = new Employe(params)
+        if (!employeInstance.save(flush: true)) {
+            render(view: &quot;create&quot;, model: [employeInstance: employeInstance])
+            return
+        }
+
+        flash.message = message(code: &apos;Employe.default.created.message&apos;,
+                default: message(code: &apos;ogil.default.created.message&apos;))
+        redirect(action: &quot;show&quot;, id: employeInstance.id)
+    }
+
+    def show() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        [employeInstance: employeInstance]
+    }
+
+    def edit() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        [employeInstance: employeInstance]
+    }
+
+    def update() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (employeInstance.version &gt; version) {
+                employeInstance.errors.rejectValue(&quot;version&quot;, &quot;default.optimistic.locking.failure&quot;,
+                        [message(code: &apos;employe.label&apos;, default: &apos;Employe&apos;)] as Object[],
+                        &quot;Another user has updated this Employe while you were editing&quot;)
+                render(view: &quot;edit&quot;, model: [employeInstance: employeInstance])
+                return
+            }
+        }
+
+        employeInstance.properties = params
+
+        if (!employeInstance.save(flush: true)) {
+            render(view: &quot;edit&quot;, model: [employeInstance: employeInstance])
+            return
+        }
+
+        flash.message = message(code: &apos;Employe.default.updated.message&apos;,
+                default: message(code: &apos;ogil.default.updated.message&apos;))
+        redirect(action: &quot;show&quot;, id: employeInstance.id)
+    }
+
+    def delete() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        try {
+            employeInstance.delete(flush: true)
+            flash.message = message(code: &apos;Employe.default.deleted.message&apos;,
+                    default: message(code: &apos;ogil.default.deleted.message&apos;))
+            redirect(action: &quot;list&quot;)
+        }
+        catch (DataIntegrityViolationException e) {
+            flash.message = message(code: &apos;Employe.default.not.deleted.message&apos;, default: message(code: &apos;ogil.default.not.deleted.message&apos;))
+            redirect(action: &quot;show&quot;, id: params.id)
+        }
+    }
+}.EmployeController</className>
+          <sourceName>/work/share/CG92-CRIF/OGIL/ogil/ogil-grails/ogil-infos-generales/grails-app/controllers/ogil/infos/generales/EmployeController.groovy</sourceName>
+          <lineNumber>
+            <int>17</int>
+          </lineNumber>
+        </checkRequirements.ant.task.ClassStructure>
+      </classes>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_WSP_001</requirementName>
+      <requirementDescription>Appel au Web Service S2</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_RECH_001</requirementName>
+      <requirementDescription>Recherche partielle</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_RECH_002</requirementName>
+      <requirementDescription>Combinaison de critères</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_RECH_003</requirementName>
+      <requirementDescription>Fournisseurs pris en compte lors d&apos;une recherche</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_RECH_001</requirementName>
+      <requirementDescription>Recherche par critères d&apos;un site fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_LIST_001</requirementName>
+      <requirementDescription>Etats possibles pour un site fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_LIST_002</requirementName>
+      <requirementDescription>Existence  d&apos;informations  d&apos;extension d&apos;un site fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_LIST_003</requirementName>
+      <requirementDescription>Statuts possibles  dans le workflow  de validation  CHORUS</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_LIST_004</requirementName>
+      <requirementDescription>Accès à la création de site  pour un profil</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_LIST_001</requirementName>
+      <requirementDescription>Affichage  d&apos;une liste  de sites fournisseurs</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_001</requirementName>
+      <requirementDescription>Société par défaut  d&apos;un nouveau fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_002</requirementName>
+      <requirementDescription>OA par défaut  d&apos;un nouveau fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_003</requirementName>
+      <requirementDescription>Contrôle d&apos;unicité  pour un fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_004</requirementName>
+      <requirementDescription>Identifiant fonctionnel pour un site fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_005</requirementName>
+      <requirementDescription>Contrôle d&apos;unicité  pour un site fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_006</requirementName>
+      <requirementDescription>Contrôle sur les données obligatoires</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_007</requirementName>
+      <requirementDescription>Etat initial  d&apos;un nouveau site  fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_008</requirementName>
+      <requirementDescription>Statut dans le workflow  de validation CHORUS d&apos;un nouveau site fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_CREAT_009</requirementName>
+      <requirementDescription>Contrôle d&apos;unicité  du code Tiers</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_CREAT_001</requirementName>
+      <requirementDescription>Création d&apos;un site fournisseur</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_MODIF_001</requirementName>
+      <requirementDescription>Accès aux actions de modification pour un profil</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_MODIF_002</requirementName>
+      <requirementDescription>Accès à la modification de champ pour un profil</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_ACTIV_001</requirementName>
+      <requirementDescription>Contrôle d&apos;existence d&apos;un RIB pour un site à l&apos;état &quot; activé &quot;</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_ACTIV_002</requirementName>
+      <requirementDescription>Accès à l&apos;activation/désactivation et état d&apos;un site</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_ACTIV_003</requirementName>
+      <requirementDescription>Accès à l&apos;ajout d&apos;extension et état d&apos;un site</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_MODIF_001</requirementName>
+      <requirementDescription></requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_MODIF_002</requirementName>
+      <requirementDescription></requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_LISTRIB_001</requirementName>
+      <requirementDescription></requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_FOU_ACTIV_001</requirementName>
+      <requirementDescription></requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_RIB_LIST_001</requirementName>
+      <requirementDescription>Accès à la création de RIB pour un profil &quot;</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_RIB_DET_001</requirementName>
+      <requirementDescription>Accès aux modes de l&apos;écran</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_RIB_DET_002</requirementName>
+      <requirementDescription>Complétion automatique des données bancaires</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_RIB_ACTIV_001</requirementName>
+      <requirementDescription>Accès à l&apos;activation / désactivation et état d&apos;un RIB</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_RIB_MODIF_001</requirementName>
+      <requirementDescription>Validation des modifications d&apos;un RIB</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>TRT_RIB_ACTIV_001</requirementName>
+      <requirementDescription>Activation/désactivation d&apos;un RIB</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+    <checkRequirements.ant.task.generators.DetailByRequirement>
+      <requirementName>RG_FOU_GEN_RF_001</requirementName>
+      <requirementDescription>Structure d&apos;un message XML</requirementDescription>
+      <classes/>
+    </checkRequirements.ant.task.generators.DetailByRequirement>
+  </detailByRequirement>
+  <detailByClass>
+    <checkRequirements.ant.task.generators.DetailByClass>
+      <className>ogil.infos.generales
+
+import org.springframework.dao.DataIntegrityViolationException
+
+
+class EmployeController {
+
+    static allowedMethods = [save: &quot;POST&quot;, update: &quot;POST&quot;, delete: &quot;POST&quot;]
+
+    def index() {
+        redirect(action: &quot;list&quot;, params: params)
+    }
+		
+    def list() {
+    	        params.max = Math.min(params.max ? params.int(&apos;max&apos;) : 10, 100)
+        Etablissement etablissement = Etablissement.get(params.etablissement)
+        if (etablissement == null) {
+            redirect(controller: &quot;etablissement&quot;, action: &quot;create&quot;)
+            return
+        }
+        [employeInstanceList: etablissement.getEmployes(), employeInstanceTotal: Employe.count()]
+    }
+
+    def create() {
+        [employeInstance: new Employe(params)]
+    }
+
+    def save() {
+        def employeInstance = new Employe(params)
+        if (!employeInstance.save(flush: true)) {
+            render(view: &quot;create&quot;, model: [employeInstance: employeInstance])
+            return
+        }
+
+        flash.message = message(code: &apos;Employe.default.created.message&apos;,
+                default: message(code: &apos;ogil.default.created.message&apos;))
+        redirect(action: &quot;show&quot;, id: employeInstance.id)
+    }
+
+    def show() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        [employeInstance: employeInstance]
+    }
+
+    def edit() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        [employeInstance: employeInstance]
+    }
+
+    def update() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (employeInstance.version &gt; version) {
+                employeInstance.errors.rejectValue(&quot;version&quot;, &quot;default.optimistic.locking.failure&quot;,
+                        [message(code: &apos;employe.label&apos;, default: &apos;Employe&apos;)] as Object[],
+                        &quot;Another user has updated this Employe while you were editing&quot;)
+                render(view: &quot;edit&quot;, model: [employeInstance: employeInstance])
+                return
+            }
+        }
+
+        employeInstance.properties = params
+
+        if (!employeInstance.save(flush: true)) {
+            render(view: &quot;edit&quot;, model: [employeInstance: employeInstance])
+            return
+        }
+
+        flash.message = message(code: &apos;Employe.default.updated.message&apos;,
+                default: message(code: &apos;ogil.default.updated.message&apos;))
+        redirect(action: &quot;show&quot;, id: employeInstance.id)
+    }
+
+    def delete() {
+        def employeInstance = Employe.get(params.id)
+        if (!employeInstance) {
+            flash.message = message(code: &apos;Employe.default.not.found.message&apos;,
+                    default: message(code: &apos;ogil.default.not.found.message&apos;))
+            redirect(action: &quot;list&quot;)
+            return
+        }
+
+        try {
+            employeInstance.delete(flush: true)
+            flash.message = message(code: &apos;Employe.default.deleted.message&apos;,
+                    default: message(code: &apos;ogil.default.deleted.message&apos;))
+            redirect(action: &quot;list&quot;)
+        }
+        catch (DataIntegrityViolationException e) {
+            flash.message = message(code: &apos;Employe.default.not.deleted.message&apos;, default: message(code: &apos;ogil.default.not.deleted.message&apos;))
+            redirect(action: &quot;show&quot;, id: params.id)
+        }
+    }
+}.EmployeController</className>
+      <requirements>
+        <string>RG_FOU_WSP_002</string>
+      </requirements>
+      <sourceName>/work/share/CG92-CRIF/OGIL/ogil/ogil-grails/ogil-infos-generales/grails-app/controllers/ogil/infos/generales/EmployeController.groovy</sourceName>
+    </checkRequirements.ant.task.generators.DetailByClass>
+  </detailByClass>
+</checkRequirements.ant.task.generators.Report>

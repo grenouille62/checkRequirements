@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="checkRequirements" basedir="." default="all">
+    <property name="reports.codeQuality" value="."/>
+    <property name="requirementSetFile.location"
+              value="ReglesDeGestion.xls"/>
+    <property name="module.grails" value="."/>
+    <property name="outputType" value="xml"/>
+    <property name="inputType" value="excel"/>
+    <path id="checkRequirements.path">
+            <fileset dir="./libs">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+
+    <target name="test1">
+        <taskdef name="checkRequirements" classname="checkRequirements.ant.task.CheckRequirementsTask" classpathref="checkRequirements.path"/>
+        <checkRequirements outputdir="${reports.codeQuality}"
+                    outputfile="checkRequirements.${outputType}"
+                    requirementssetfile="${requirementSetFile.location}"
+                    outputstyle="xml"
+                    inputType="${inputType}">
+            <fileset dir="${module.grails}">
+                <include name="**/*.groovy"/>
+            </fileset>
+        </checkRequirements>
+    </target>
+    <target name="test2">
+        <taskdef name="checkRequirements" classname="checkRequirements.ant.task.CheckRequirementsTask" classpathref="checkRequirements.path"/>
+        <checkRequirements outputdir="${reports.codeQuality}"
+                    outputfile="checkRequirements.txt"
+                    requirementssetfile="${requirementSetFile.location}"
+                    inputType="${inputType}">
+            <fileset dir="${module.grails}">
+                <include name="**/*.groovy"/>
+            </fileset>
+        </checkRequirements>
+    </target>
+    <target name="all" depends="test1,test2"/>
+</project>

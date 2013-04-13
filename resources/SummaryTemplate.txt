@@ -1,0 +1,7 @@
+-------------------------------------------------
+SYNTHESE
+-------------------------------------------------
+    Nombre de règles/traitements                    : <NB_REGLE>
+    Nombre de règles/traitements implémnetées       : <NB_IMPL>
+    Nombre de règles/traitements non implémentées   : <NB_NON_IMPL>
+
